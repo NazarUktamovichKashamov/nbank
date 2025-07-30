@@ -126,7 +126,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
   "name" : "aaa"
 }
 
-### Negative case: Change username to special symbols
+### Negative case: Change username to special symbols "$%&&$%"
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
 Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
