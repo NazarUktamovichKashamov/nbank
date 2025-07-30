@@ -45,6 +45,7 @@ public class C2CTransferTest {
                 .body("senderAccountId", equalTo(1));
         }
 
+
     @Test
     public void negativeTransferToNotExistingClientTest(){
         given()
@@ -64,6 +65,8 @@ public class C2CTransferTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo("Invalid transfer: insufficient funds or invalid accounts"));
     }
+
+
     @Test
     public void negativeTransferFromNotExistingClientTest(){
         given()
@@ -83,6 +86,8 @@ public class C2CTransferTest {
                 .statusCode(HttpStatus.SC_FORBIDDEN)
                 .body(Matchers.equalTo("Unauthorized access to account"));
     }
+
+
     @Test
     public void TransferMe2MeTest(){
         given()

@@ -47,6 +47,8 @@ public class ChangeNameTest {
                 .body("message", Matchers.equalTo("Profile updated successfully"))
                 .body("customer.name", Matchers.equalTo(newUsername));
     }
+
+
     @CsvSource({
             "Ne"
     })
@@ -70,6 +72,8 @@ public class ChangeNameTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo("Name must contain two words with letters only"));
     }
+
+
     @CsvSource({
             "Ne W Name"
     })
@@ -93,6 +97,8 @@ public class ChangeNameTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo("Name must contain two words with letters only"));
     }
+
+
     @CsvSource({
             "Ne4w Na5me"
     })

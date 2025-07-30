@@ -22,6 +22,7 @@ public class DepositToAccountTest {
                             new ResponseLoggingFilter()));
         }
 
+
         @Test
         public void positiveDepositTest() {
             given()
@@ -41,6 +42,8 @@ public class DepositToAccountTest {
                 .body("accountNumber", equalTo("ACC1"))
                 .body(("balance"), equalTo("1100.0"));
     }
+
+
     @Test
     public void DepositZeroAmountTest() {
         given()
@@ -59,6 +62,8 @@ public class DepositToAccountTest {
                 .statusCode(HttpStatus.SC_BAD_REQUEST)
                 .body(Matchers.equalTo("Invalid account or amount"));
     }
+
+
     @Test
     public void DepositNegativeAmountTest() {
         given()
