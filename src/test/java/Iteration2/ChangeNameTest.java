@@ -1,125 +1,62 @@
 package Iteration2;
 
-import io.restassured.RestAssured;
-import io.restassured.filter.log.RequestLoggingFilter;
-import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.http.ContentType;
-import org.apache.http.HttpStatus;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.List;
+import Requests.ChangeNameRequest;
+import generators.RandomData;
+import models.ChangeNameRequestModel;
+import models.ChangeNameResponseModel;
+import org.junit.jupiter.api.Test;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class ChangeNameTest {
-    @BeforeAll
-    public static void setupRestAssured() {
-        RestAssured.filters(
-                List.of(new RequestLoggingFilter(),
-                        new ResponseLoggingFilter()));
+public class ChangeNameTest extends BaseTest{
+
+    @Test
+    public void positiveChangeNameTest(){
+        ChangeNameRequestModel changeNameRequest = ChangeNameRequestModel.builder()
+                .name(RandomData.CreateValidName())
+                .build();
+        new ChangeNameRequest(
+                RequestSpecs.userOneAuthSpec(),
+                ResponseSpecs.ValidUsernameRequest())
+                .post(changeNameRequest);
     }
 
 
-    @CsvSource({
-        "New Name"
-    })
-    @ParameterizedTest
-    public void positiveChangeNameTest(String newUsername){
-        String requestBody = String.format(
-                """
-                {
-                "name": "%s"
-                }
-               
-                """, newUsername);
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(requestBody)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .put("http://localhost:4111/api/v1/customer/profile")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_OK)
-                .body("message", Matchers.equalTo("Profile updated successfully"))
-                .body("customer.name", Matchers.equalTo(newUsername));
+    @Test
+    public void negativeUsernameOneWordTest(){
+        ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
+                .name(RandomData.CreateSingleWordName())
+                .build();
+        new ChangeNameRequest(
+                RequestSpecs.userOneAuthSpec(),
+                ResponseSpecs.InvalidUsernameRequest())
+                .post(changeNameRequestModel);
     }
 
 
-    @CsvSource({
-            "Ne"
-    })
-    @ParameterizedTest
-    public void negativeUsernameOneWordTest(String newUsername){
-        String requestBody = String.format(
-                """
-                {
-                "name": "%s"
-                }
-               
-                """, newUsername);
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(requestBody)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .put("http://localhost:4111/api/v1/customer/profile")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.equalTo("Name must contain two words with letters only"));
+    @Test
+    public void negativeUsername3WordsTest(){
+        ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
+                .name(RandomData.CreateThreeWordsInvalidName())
+                .build();
+        new ChangeNameRequest(
+                RequestSpecs.userOneAuthSpec(),
+                ResponseSpecs.InvalidUsernameRequest())
+                .post(changeNameRequestModel);
     }
 
 
-    @CsvSource({
-            "Ne W Name"
-    })
-    @ParameterizedTest
-    public void negativeUsername3WordsTest(String newUsername){
-        String requestBody = String.format(
-                """
-                {
-                "name": "%s"
-                }
-               
-                """, newUsername);
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(requestBody)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .put("http://localhost:4111/api/v1/customer/profile")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.equalTo("Name must contain two words with letters only"));
-    }
-
-
-    @CsvSource({
-            "Ne4w Na5me"
-    })
-    @ParameterizedTest
-    public void negativeUsernameWithDigitsTest(String newUsername){
-        String requestBody = String.format(
-                """
-                {
-                "name": "%s"
-                }
-               
-                """, newUsername);
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body(requestBody)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .put("http://localhost:4111/api/v1/customer/profile")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.equalTo("Name must contain two words with letters only"));
+    @Test
+    public void negativeUsernameWithDigitsTest(){
+        ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
+                .name(RandomData.CreateNumericName())
+                .build();
+        new ChangeNameRequest(
+                RequestSpecs.userOneAuthSpec(),
+                ResponseSpecs.InvalidUsernameRequest())
+                .post(changeNameRequestModel);
     }
 }

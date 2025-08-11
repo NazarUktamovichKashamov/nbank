@@ -4,10 +4,13 @@ import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+import models.DepositRequestModel;
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import specs.RequestSpecs;
+import specs.ResponseSpecs;
 
 import java.util.List;
 
@@ -25,61 +28,39 @@ public class DepositToAccountTest {
 
         @Test
         public void positiveDepositTest() {
-            given()
-                    .contentType(ContentType.JSON)
-                    .accept(ContentType.JSON)
-                    .body("""
-                            {
-              "id": 1,
-              "balance": 100
-              }
-              """)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .post("http://localhost:4111/api/v1/accounts/deposit")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_OK)
-                .body("accountNumber", equalTo("ACC1"))
-                .body(("balance"), equalTo("1100.0"));
+            DepositRequestModel depositRequestModel= DepositRequestModel.builder()
+                    .id(1)
+                    .balance(1000)
+                    .build();
+            new Requests.UserDepositRequest(
+                    RequestSpecs.userOneAuthSpec(),
+                    ResponseSpecs.DepositPositiveRequest())
+                    .post(depositRequestModel);
     }
 
 
     @Test
     public void DepositZeroAmountTest() {
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                            {
-              "id": 1,
-              "balance": 0
-              }
-              """)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .post("http://localhost:4111/api/v1/accounts/deposit")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.equalTo("Invalid account or amount"));
+        DepositRequestModel depositRequestModel= DepositRequestModel.builder()
+                .id(1)
+                .balance(0)
+                .build();
+        new Requests.UserDepositRequest(
+                RequestSpecs.userOneAuthSpec(),
+                ResponseSpecs.DepositBadRequest())
+                .post(depositRequestModel);
     }
 
 
     @Test
     public void DepositNegativeAmountTest() {
-        given()
-                .contentType(ContentType.JSON)
-                .accept(ContentType.JSON)
-                .body("""
-                            {
-              "id": 1,
-              "balance": -1
-              }
-              """)
-                .header("Authorization", "Basic a2F0ZTE5OTg6S2F0ZTE5OTgk")
-                .post("http://localhost:4111/api/v1/accounts/deposit")
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST)
-                .body(Matchers.equalTo("Invalid account or amount"));
+        DepositRequestModel depositRequestModel= DepositRequestModel.builder()
+                .id(1)
+                .balance(-100)
+                .build();
+        new Requests.UserDepositRequest(
+                RequestSpecs.userOneAuthSpec(),
+                ResponseSpecs.DepositBadRequest())
+                .post(depositRequestModel);
     }
 }
