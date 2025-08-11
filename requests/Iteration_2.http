@@ -1,7 +1,7 @@
 ### Positive case: Deposit to account
 POST http://localhost:4111/api/v1/accounts/deposit
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "id": 1,
@@ -11,7 +11,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck
 ### Negative case: Deposit to account 0 amount
 POST http://localhost:4111/api/v1/accounts/deposit
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "id": 1,
@@ -21,7 +21,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Deposit to account negative amount
 POST http://localhost:4111/api/v1/accounts/deposit
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "id": 1,
@@ -31,18 +31,18 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Positive case: Transfer money C2C
 POST http://localhost:4111/api/v1/accounts/transfer
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
-  "senderAccountId": 2,
-  "receiverAccountId": 1,
+  "senderAccountId": 1,
+  "receiverAccountId": 2,
   "amount": 50
 }
 
 ### Negative case: Transfer money C2C to not existing client
 POST http://localhost:4111/api/v1/accounts/transfer
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "senderAccountId": 1,
@@ -53,7 +53,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Transfer money C2C from not existing client
 POST http://localhost:4111/api/v1/accounts/transfer
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "senderAccountId": 999,
@@ -64,7 +64,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Transfer money Me2Me
 POST http://localhost:4111/api/v1/accounts/transfer
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "senderAccountId": 1,
@@ -75,7 +75,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Positive case: Change username
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "name" : "New Name"
@@ -84,7 +84,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Change username to blank
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "name" : " "
@@ -93,7 +93,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Change below character limit
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "name" : "ab"
@@ -102,7 +102,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Change username above character limit
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "name" : "sijdncvsijdcvnsvbnhvbndfvnfhvbnevhbn"
@@ -111,7 +111,7 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Change username on high character limit
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "name" : "aaaaaaaaaaaaaaa"
@@ -120,13 +120,13 @@ Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
 ### Negative case: Change username on low character limit
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
-Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
+Authorization: Basic a2F0ZTE5OTg6S2F0ZTE5OTgk
 
 {
   "name" : "aaa"
 }
 
-### Negative case: Change username to special symbols
+### Negative case: Change username to special symbols "$%&&$%"
 PUT http://localhost:4111/api/v1/customer/profile
 Content-Type: application/json
 Authorization: Basic a2F0ZTE5OTc6S2F0ZTE5OTck'
