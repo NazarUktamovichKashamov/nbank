@@ -1,11 +1,16 @@
-package Iteration2;
+package api.Iteration2;
 
+import Requests.skeleton.Endpoint;
+import Requests.skeleton.requesters.CrudRequester;
+import Requests.skeleton.requesters.ValidatedCrudRequester;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import models.DepositRequestModel;
+import models.DepositResponseModel;
 import org.apache.http.HttpStatus;
+import org.assertj.core.api.SoftAssertions;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -28,14 +33,17 @@ public class DepositToAccountTest {
 
         @Test
         public void positiveDepositTest() {
+            SoftAssertions softly = new SoftAssertions();
             DepositRequestModel depositRequestModel= DepositRequestModel.builder()
                     .id(1)
                     .balance(1000)
                     .build();
-            new Requests.UserDepositRequest(
-                    RequestSpecs.userOneAuthSpec(),
-                    ResponseSpecs.DepositPositiveRequest())
+            DepositResponseModel depositResponseModel = new ValidatedCrudRequester<DepositResponseModel>
+                    (RequestSpecs.userOneAuthSpec(),
+                            ResponseSpecs.DepositPositiveRequest(),
+                            Endpoint.USER_DEPOSIT_ENDPOINT)
                     .post(depositRequestModel);
+            softly.assertThat(depositRequestModel.getId()).isEqualTo(depositResponseModel.getId());
     }
 
 
@@ -45,9 +53,10 @@ public class DepositToAccountTest {
                 .id(1)
                 .balance(0)
                 .build();
-        new Requests.UserDepositRequest(
+        new CrudRequester(
                 RequestSpecs.userOneAuthSpec(),
-                ResponseSpecs.DepositBadRequest())
+                ResponseSpecs.DepositBadRequest(),
+                Endpoint.USER_DEPOSIT_ENDPOINT)
                 .post(depositRequestModel);
     }
 
@@ -58,9 +67,10 @@ public class DepositToAccountTest {
                 .id(1)
                 .balance(-100)
                 .build();
-        new Requests.UserDepositRequest(
+        new CrudRequester(
                 RequestSpecs.userOneAuthSpec(),
-                ResponseSpecs.DepositBadRequest())
+                ResponseSpecs.DepositBadRequest(),
+                Endpoint.USER_DEPOSIT_ENDPOINT)
                 .post(depositRequestModel);
     }
 }

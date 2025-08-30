@@ -58,6 +58,12 @@ public class ResponseSpecs {
                 .build();
     }
 
+    public static ResponseSpecification BlankLogin(){
+        return defaultResponseBuilder()
+                .expectStatusCode(HttpStatus.SC_OK)
+                .build();
+    }
+
     public static ResponseSpecification InvalidUsernameRequest(){
         return defaultResponseBuilder()
                 .expectStatusCode(HttpStatus.SC_BAD_REQUEST)

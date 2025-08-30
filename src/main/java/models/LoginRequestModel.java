@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-
-public class C2CResponseModel extends BaseModel {
-    private double amount;
-    private String message;
-    private long receiverAccountId;
-    private long senderAccountId;
+public class LoginRequestModel extends BaseModel{
+    private String username;
+    private String password;
 }

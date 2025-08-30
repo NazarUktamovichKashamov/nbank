@@ -1,27 +1,29 @@
-package Iteration2;
+package api.Iteration2;
 
-import Requests.ChangeNameRequest;
+import Requests.skeleton.Endpoint;
+import Requests.skeleton.requesters.CrudRequester;
+import Requests.skeleton.requesters.ValidatedCrudRequester;
 import generators.RandomData;
+import generators.RandomModelGenerator;
 import models.ChangeNameRequestModel;
 import models.ChangeNameResponseModel;
 import org.junit.jupiter.api.Test;
 import specs.RequestSpecs;
 import specs.ResponseSpecs;
 
-import static io.restassured.RestAssured.given;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 public class ChangeNameTest extends BaseTest{
 
     @Test
     public void positiveChangeNameTest(){
-        ChangeNameRequestModel changeNameRequest = ChangeNameRequestModel.builder()
-                .name(RandomData.CreateValidName())
-                .build();
-        new ChangeNameRequest(
+
+        ChangeNameRequestModel changeNameRequestModel = RandomModelGenerator.generate(ChangeNameRequestModel.class);
+
+        ChangeNameResponseModel changeNameResponseModel = new ValidatedCrudRequester<ChangeNameResponseModel>(
                 RequestSpecs.userOneAuthSpec(),
-                ResponseSpecs.ValidUsernameRequest())
-                .post(changeNameRequest);
+                ResponseSpecs.ValidUsernameRequest(),
+                Endpoint.CHANGE_NAME_ENDPOINT)
+                .post(changeNameRequestModel);
+        softly.assertThat(changeNameRequestModel.getName()).isEqualTo(changeNameResponseModel.getNewUsername());
     }
 
 
@@ -30,9 +32,10 @@ public class ChangeNameTest extends BaseTest{
         ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
                 .name(RandomData.CreateSingleWordName())
                 .build();
-        new ChangeNameRequest(
+        new CrudRequester(
                 RequestSpecs.userOneAuthSpec(),
-                ResponseSpecs.InvalidUsernameRequest())
+                ResponseSpecs.InvalidUsernameRequest(),
+                Endpoint.CHANGE_NAME_ENDPOINT)
                 .post(changeNameRequestModel);
     }
 
@@ -42,9 +45,10 @@ public class ChangeNameTest extends BaseTest{
         ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
                 .name(RandomData.CreateThreeWordsInvalidName())
                 .build();
-        new ChangeNameRequest(
+        new CrudRequester(
                 RequestSpecs.userOneAuthSpec(),
-                ResponseSpecs.InvalidUsernameRequest())
+                ResponseSpecs.InvalidUsernameRequest(),
+                Endpoint.CHANGE_NAME_ENDPOINT)
                 .post(changeNameRequestModel);
     }
 
@@ -54,9 +58,10 @@ public class ChangeNameTest extends BaseTest{
         ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
                 .name(RandomData.CreateNumericName())
                 .build();
-        new ChangeNameRequest(
+        new CrudRequester(
                 RequestSpecs.userOneAuthSpec(),
-                ResponseSpecs.InvalidUsernameRequest())
+                ResponseSpecs.InvalidUsernameRequest(),
+                Endpoint.CHANGE_NAME_ENDPOINT)
                 .post(changeNameRequestModel);
     }
 }

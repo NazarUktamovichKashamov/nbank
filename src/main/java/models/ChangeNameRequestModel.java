@@ -1,5 +1,6 @@
 package models;
 
+import generators.GeneratingRule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,5 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 
 public class ChangeNameRequestModel extends BaseModel{
+    @GeneratingRule(regex = "^[A-Za-z]{1,15} [A-Za-z]{1,15}$")
     String name;
 }
