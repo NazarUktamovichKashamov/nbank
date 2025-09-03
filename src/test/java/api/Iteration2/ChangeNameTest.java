@@ -1,15 +1,15 @@
 package api.Iteration2;
 
-import Requests.skeleton.Endpoint;
-import Requests.skeleton.requesters.CrudRequester;
-import Requests.skeleton.requesters.ValidatedCrudRequester;
-import generators.RandomData;
-import generators.RandomModelGenerator;
-import models.ChangeNameRequestModel;
-import models.ChangeNameResponseModel;
+import api.Requests.skeleton.Endpoint;
+import api.Requests.skeleton.requesters.CrudRequester;
+import api.Requests.skeleton.requesters.ValidatedCrudRequester;
+import api.generators.RandomData;
+import api.generators.RandomModelGenerator;
+import api.models.ChangeNameRequestModel;
+import api.models.ChangeNameResponseModel;
 import org.junit.jupiter.api.Test;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 public class ChangeNameTest extends BaseTest{
 

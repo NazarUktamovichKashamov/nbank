@@ -1,26 +1,22 @@
 package api.Iteration2;
 
-import Requests.skeleton.Endpoint;
-import Requests.skeleton.requesters.CrudRequester;
-import Requests.skeleton.requesters.ValidatedCrudRequester;
+import api.Requests.skeleton.Endpoint;
+import api.Requests.skeleton.requesters.CrudRequester;
+import api.Requests.skeleton.requesters.ValidatedCrudRequester;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
-import io.restassured.http.ContentType;
-import models.DepositRequestModel;
-import models.DepositResponseModel;
-import org.apache.http.HttpStatus;
+import api.models.DepositRequestModel;
+import api.models.DepositResponseModel;
 import org.assertj.core.api.SoftAssertions;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import specs.RequestSpecs;
-import specs.ResponseSpecs;
+import api.specs.RequestSpecs;
+import api.specs.ResponseSpecs;
 
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
 
 public class DepositToAccountTest {
         @BeforeAll
