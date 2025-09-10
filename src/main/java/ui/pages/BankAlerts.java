@@ -4,17 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum BankAlerts {
-C2C_TRANSFER_SUCCESS_FIRST_PART("✅ Successfully transferred "),
+C2C_TRANSFER_SUCCESS("✅ Successfully transferred $%s to account ACC2!"),
 
-C2C_TRANSFER_SUCCESS_SECOND_PART(" to account ACC2!"),
-
-C2C_TRANSFER_ERROR_NEGATIVE_AMOUNT("❌ Error: Invalid transfer: insufficient funds or invalid accounts"),
+C2C_TRANSFER_ERROR_WRONG_NAME("❌ The recipient name does not match the registered name."),
 
 DEPOSIT_INVALID_AMOUNT("❌ Please enter a valid amount."),
 
-DEPOSIT_SUCCESS_FIRST_PART("✅ Successfully deposited $"),
-
-DEPOSIT_SUCCESS_SECOND_PART(" to account ACC1!"),
+DEPOSIT_SUCCESS("✅ Successfully deposited $%s to account ACC1!"),
 
     CHANGE_NAME_SUCCESS("✅ Name updated successfully!"),
 
@@ -24,5 +20,15 @@ DEPOSIT_SUCCESS_SECOND_PART(" to account ACC1!"),
 
     BankAlerts(String message) {
         this.message = message;
+    }
+
+    public static String compileMessage(String message, int amount) {
+        return String.format(message, amount);
+    }
+    public static String compileMessage(String message, long amount) {
+        return String.format(message, amount);
+    }
+    public static String compileMessage(String message, double amount) {
+        return String.format(message, amount);
     }
 }

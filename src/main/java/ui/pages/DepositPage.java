@@ -22,9 +22,4 @@ public class DepositPage extends BasePage<DepositPage>{
         depositButton.click();
         return this;
     }
-
-    //$("#root > div > div > button:nth-child(1)").click();
-    //$(Selectors.byAttribute("class", "form-control account-selector")).selectOption(1);
-    //$(Selectors.byAttribute("placeholder", "Enter amount")).sendKeys(String.valueOf(user.getBalance()));
-    //$("#root > div > button").click();
 }

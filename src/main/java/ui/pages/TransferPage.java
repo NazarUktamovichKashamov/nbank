@@ -30,13 +30,4 @@ public class TransferPage extends BasePage<TransferPage>{
         sendTransferButton.click();
         return this;
     }
-
-
-    //$(Selectors.byText("-- Choose an account --")).click();
-    //$(Selectors.byText("ACC1")).click();
-    //$(Selectors.byAttribute("placeholder", "Enter recipient name")).sendKeys("Unnecessary");
-    //$(Selectors.byAttribute("placeholder", "Enter recipient account number")).sendKeys("ACC"+transfer.getReceiverAccountId());
-    //$(Selectors.byAttribute("placeholder", "Enter amount")).sendKeys(String.valueOf(transfer.getAmount()));
-    //$(Selectors.byText("Confirm details are correct")).click();
-    //$(Selectors.byText("\uD83D\uDE80 Send Transfer")).click();
 }
