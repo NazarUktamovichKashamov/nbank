@@ -1,7 +1,6 @@
 package api.generators;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 
 public class RandomData {
     private RandomData(){}
@@ -16,6 +15,10 @@ public class RandomData {
     }
     public static String CreateNumericName(){
         return RandomStringUtils.randomAlphanumeric(7);
+    }
+
+    public static String CreateNumber(){
+        return RandomStringUtils.randomNumeric(2);
     }
 
 }

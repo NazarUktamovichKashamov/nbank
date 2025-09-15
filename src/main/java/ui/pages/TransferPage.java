@@ -21,6 +21,7 @@ public class TransferPage extends BasePage<TransferPage>{
 
 
     public TransferPage transfer(String recieverName, String recipientAccountId, int transferAmount){
+        open();
         senderAccountPick.click();
         accountToTransferFrom.click();
         recipientName.sendKeys(recieverName);

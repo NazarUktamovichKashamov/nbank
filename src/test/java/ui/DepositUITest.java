@@ -31,7 +31,6 @@ public class DepositUITest extends BaseUITest{
         assertTrue(isDepositExists(user.getId(), user.getBalance()));
     }
 
-
     @Test
     @Browsers("chrome")
     @UserSession
@@ -42,7 +41,5 @@ public class DepositUITest extends BaseUITest{
                 .checkAlertMessageAndAccept((BankAlerts.DEPOSIT_INVALID_AMOUNT.getMessage()));
 
         assertFalse(isDepositExists(user.getId(), user.getBalance()));
-
-
     }
 }

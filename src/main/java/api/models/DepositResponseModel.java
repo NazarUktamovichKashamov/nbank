@@ -1,12 +1,10 @@
 package api.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +14,5 @@ public class DepositResponseModel extends BaseModel {
     private long id;
     private String accountNumber;
     private float balance;
-    private List<String> transactions;
+    private List<Transaction> transactions;
 }

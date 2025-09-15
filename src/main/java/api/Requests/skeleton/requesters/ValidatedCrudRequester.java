@@ -15,6 +15,11 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HttpRequest imp
     }
 
     @Override
+    public Object update(long id, BaseModel model) {
+        return null;
+    }
+
+    @Override
     public M post(BaseModel model) {
         return (M) crudRequester.post(model).extract().as(endpoint.getResponseModel());
     }
@@ -25,12 +30,9 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HttpRequest imp
     }
 
     @Override
-    public Object update(long id, BaseModel model) {
-        return null;
+    public M update(BaseModel model) {
+        return (M) crudRequester.update(model).extract().as(endpoint.getResponseModel());
     }
 
-    @Override
-    public Object update(long id) {
-        return null;
-    }
+
 }

@@ -1,5 +1,7 @@
 package api.models.comparison;
 
+import lombok.Getter;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,7 @@ public class ModelComparator {
         throw new RuntimeException("Field not found: " + fieldName + " in class " + obj.getClass().getName());
     }
 
+    @Getter
     public static class ComparisonResult {
         private final List<Mismatch> mismatches;
 
@@ -51,10 +54,6 @@ public class ModelComparator {
 
         public boolean isSuccess() {
             return mismatches.isEmpty();
-        }
-
-        public List<Mismatch> getMismatches() {
-            return mismatches;
         }
 
         @Override

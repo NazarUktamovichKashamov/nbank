@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import api.models.*;
 
-@AllArgsConstructor
+
 @Getter
 
 public enum Endpoint {
@@ -32,6 +32,24 @@ public enum Endpoint {
             C2CRequestModel.class,
             C2CResponseModel.class
     );
+
+    Endpoint(String url, Class<? extends BaseModel> requestModel, Class<? extends BaseModel> responseModel) {
+        this.url = url;
+        this.requestModel = requestModel;
+        this.responseModel = responseModel;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Class<? extends BaseModel> getRequestModel() {
+        return requestModel;
+    }
+
+    public Class<? extends BaseModel> getResponseModel() {
+        return responseModel;
+    }
 
     private final String url;
     private final Class<? extends BaseModel> requestModel;

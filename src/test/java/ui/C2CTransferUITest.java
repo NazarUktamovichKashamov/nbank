@@ -1,6 +1,5 @@
 package ui;
 
-import com.codeborne.selenide.Selenide;
 import api.models.C2CRequestModel;
 import common.annotations.Browsers;
 import common.annotations.UserSession;
@@ -16,23 +15,21 @@ import static org.junit.jupiter.api.Assertions.*;
 public class C2CTransferUITest extends BaseUITest{
 
 
-
     @Test
     @UserSession
     @Browsers("chrome")
     public void UserCanSendC2CToAnotherUserTest(){
-
-        C2CRequestModel transfer = C2CRequestModel.builder().senderAccountId(1).receiverAccountId(2).amount(2).recieverName("Unneccesary").build();
+        C2CRequestModel transfer = C2CRequestModel.generateC2CWithValidNameTest();
         double initialBalance = findBalance(transfer.getSenderAccountId());
 
-        Selenide.open("/transfer");
-
-        new TransferPage().open().transfer(transfer.getRecieverName(), "ACC"+transfer.getReceiverAccountId(), transfer.getAmount())
+        new TransferPage().transfer(transfer.getRecieverName(), "ACC"+transfer.getReceiverAccountId(), transfer.getAmount())
                 .checkAlertMessageAndAccept((BankAlerts.compileMessage(BankAlerts.C2C_TRANSFER_SUCCESS.getMessage(), transfer.getAmount())));
 
         double afterBalance = findBalance(transfer.getSenderAccountId());
 
         assertEquals(transfer.getAmount(), initialBalance - afterBalance);
+        assertTrue(isC2CExists(transfer.getSenderAccountId(), transfer.getAmount()));
+
 
 
     }
@@ -41,17 +38,16 @@ public class C2CTransferUITest extends BaseUITest{
     @UserSession
     @Browsers("chrome")
     public void UserCantSendMe2MeWithInvalidNameTest(){
-        C2CRequestModel transfer = C2CRequestModel.builder().senderAccountId(1).receiverAccountId(1).amount(-2).recieverName("Unnec ces ary").build();
-
+        C2CRequestModel transfer = C2CRequestModel.generateMe2MeWithInvalidNameTest();
 
         double initialBalance = findBalance(transfer.getSenderAccountId());
 
-
-        new TransferPage().open().transfer(transfer.getRecieverName(), "ACC"+transfer.getReceiverAccountId(), transfer.getAmount())
+        new TransferPage().transfer(transfer.getRecieverName(), "ACC"+transfer.getReceiverAccountId(), transfer.getAmount())
                 .checkAlertMessageAndAccept((BankAlerts.C2C_TRANSFER_ERROR_WRONG_NAME.getMessage()));
 
         double afterBalance = findBalance(transfer.getSenderAccountId());
 
         assertEquals(initialBalance, afterBalance);
+        assertFalse(isC2CExists(transfer.getSenderAccountId(), transfer.getAmount()));
     }
 }

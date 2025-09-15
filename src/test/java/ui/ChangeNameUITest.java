@@ -28,7 +28,10 @@ public class ChangeNameUITest extends BaseUITest{
         new ChangeNamePage().open().changeName(user.getName())
                 .checkAlertMessageAndAccept((BankAlerts.CHANGE_NAME_SUCCESS.getMessage()));
 
-        assertEquals(new DashboardPage().open().waitForUsernameToLoad(user.getName()).getUsername(), (user.getName()));
+        assertEquals(new DashboardPage()
+                .open()
+                .waitForUsernameToLoad(user.getName())
+                .getUsername(), (user.getName()));
     }
 
     @Test
@@ -40,6 +43,8 @@ public class ChangeNameUITest extends BaseUITest{
         new ChangeNamePage().open().changeName(user.getName())
                 .checkAlertMessageAndAccept((BankAlerts.CHANGE_NAME_ERROR.getMessage()));
 
-        assertNotEquals(new DashboardPage().open().waitForUsernameToLoad(user.getName()).getUsername(), (user.getName()));
+        assertNotEquals(new DashboardPage()
+                .open()
+                .getUsername(), user.getName());
     }
 }

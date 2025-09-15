@@ -1,14 +1,22 @@
 package api.models.comparison;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+@Getter
+@Builder
+
 public class ModelComparisonConfigLoader {
 
     private final Map<String, ComparisonRule> rules = new HashMap<>();
+
+    public ModelComparisonConfigLoader() {
+        this("model-comparison.properties"); // ← делегирует
+    }
 
     public ModelComparisonConfigLoader(String configFile) {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream(configFile)) {
@@ -49,7 +57,6 @@ public class ModelComparisonConfigLoader {
                 if (parts.length == 2) {
                     fieldMappings.put(parts[0].trim(), parts[1].trim());
                 } else {
-                    // fallback: same field name if mapping not explicitly given
                     fieldMappings.put(pair.trim(), pair.trim());
                 }
             }

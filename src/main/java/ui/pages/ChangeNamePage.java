@@ -16,7 +16,6 @@ public class ChangeNamePage extends BasePage<ChangeNamePage>{
 
 
     public ChangeNamePage changeName(String newName){
-        nameSpace.clear();
         nameSpace.sendKeys(newName);
         confirmButton.click();
         return this;

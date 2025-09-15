@@ -1,15 +1,14 @@
 package api.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 
 public class ChangeNameResponseModel extends BaseModel{
-    private String newUsername;
+    private String message;
+    private Customer customer;
 }

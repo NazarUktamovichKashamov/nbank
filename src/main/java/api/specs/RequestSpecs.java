@@ -10,6 +10,7 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Map;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static io.restassured.RestAssured.config;
 
+@Getter
 public class RequestSpecs {
 
     private static Map<String, String> authHeaders = new HashMap<>(Map.of("user", "Basic TmF6YXIyMDA0Ok5hemFyMjAwNCE="));

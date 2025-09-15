@@ -22,8 +22,8 @@ public class ChangeNameTest extends BaseTest{
                 RequestSpecs.userOneAuthSpec(),
                 ResponseSpecs.ValidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
-                .post(changeNameRequestModel);
-        softly.assertThat(changeNameRequestModel.getName()).isEqualTo(changeNameResponseModel.getNewUsername());
+                .update(changeNameRequestModel);
+        softly.assertThat(changeNameRequestModel.getName()).isEqualTo(changeNameResponseModel.getCustomer().getName());
     }
 
 
@@ -36,7 +36,7 @@ public class ChangeNameTest extends BaseTest{
                 RequestSpecs.userOneAuthSpec(),
                 ResponseSpecs.InvalidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
-                .post(changeNameRequestModel);
+                .update(changeNameRequestModel);
     }
 
 
@@ -49,7 +49,7 @@ public class ChangeNameTest extends BaseTest{
                 RequestSpecs.userOneAuthSpec(),
                 ResponseSpecs.InvalidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
-                .post(changeNameRequestModel);
+                .update(changeNameRequestModel);
     }
 
 
@@ -62,6 +62,6 @@ public class ChangeNameTest extends BaseTest{
                 RequestSpecs.userOneAuthSpec(),
                 ResponseSpecs.InvalidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
-                .post(changeNameRequestModel);
+                .update(changeNameRequestModel);
     }
 }
