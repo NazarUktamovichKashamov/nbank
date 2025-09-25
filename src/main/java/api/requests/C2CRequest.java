@@ -1,4 +1,4 @@
-package api.Requests;
+package api.requests;
 
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;

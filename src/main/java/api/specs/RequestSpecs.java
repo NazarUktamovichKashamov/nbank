@@ -1,7 +1,7 @@
 package api.specs;
 
-import api.Requests.skeleton.Endpoint;
-import api.Requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
 import api.configs.Config;
 import api.models.LoginRequestModel;
 import com.codeborne.selenide.Selenide;
@@ -22,7 +22,7 @@ import static io.restassured.RestAssured.config;
 @Getter
 public class RequestSpecs {
 
-    private static Map<String, String> authHeaders = new HashMap<>(Map.of("user", "Basic TmF6YXIyMDA0Ok5hemFyMjAwNCE="));
+    private static Map<String, String> authHeaders = new HashMap<>(Map.of("user", "Basic S2F0ZTE5OTg6S2F0ZTE5OTgh"));
 
     private RequestSpecs(){}
 
@@ -36,9 +36,16 @@ public class RequestSpecs {
 
     }
 
+    public static RequestSpecification adminSpec() {
+        return defaultRequestBuilder()
+                .addHeader("Authorization", authHeaders.get("admin"))
+                .build();
+    }
+
     public static RequestSpecification userOneAuthSpec(){
         return defaultRequestBuilder()
                 .addHeader("Authorization", authHeaders.get("user"))
+                .setContentType(ContentType.JSON)
                 .build();
     }
 

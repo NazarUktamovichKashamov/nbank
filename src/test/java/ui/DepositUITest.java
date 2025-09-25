@@ -23,7 +23,7 @@ public class DepositUITest extends BaseUITest{
     @Browsers("chrome")
     @UserSession
     public void userCanDeposit(){
-        DepositRequestModel user = DepositRequestModel.builder().id(1).balance(100).build();
+        DepositRequestModel user = DepositRequestModel.builder().id(6).balance(100).build();
 
         new DepositPage().open().deposit(user.getId(), user.getBalance())
                .checkAlertMessageAndAccept((BankAlerts.compileMessage(BankAlerts.DEPOSIT_SUCCESS.getMessage(), user.getBalance())));
@@ -35,7 +35,7 @@ public class DepositUITest extends BaseUITest{
     @Browsers("chrome")
     @UserSession
     public void userCanNotDepositNegativeNumber(){
-        DepositRequestModel user = DepositRequestModel.builder().id(1).balance(-10).build();
+        DepositRequestModel user = DepositRequestModel.builder().id(6).balance(-10).build();
 
         new DepositPage().open().deposit(user.getId(), user.getBalance())
                 .checkAlertMessageAndAccept((BankAlerts.DEPOSIT_INVALID_AMOUNT.getMessage()));

@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class AccountsResponseModel extends BaseModel{
-    private long id;
+    private int id;
     private String accountNumber;
     private double balance;
     private List<Object> transactions;

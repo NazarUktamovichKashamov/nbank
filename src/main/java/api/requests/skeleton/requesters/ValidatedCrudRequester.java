@@ -1,13 +1,17 @@
-package api.Requests.skeleton.requesters;
+package api.requests.skeleton.requesters;
 
-import api.Requests.skeleton.Endpoint;
-import api.Requests.skeleton.HttpRequest;
-import api.Requests.skeleton.interfaces.CrudEndpointInterface;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.HttpRequest;
+import api.requests.skeleton.interfaces.CrudEndpointInterface;
+import api.requests.skeleton.interfaces.GetAllEndpointInterface;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import api.models.BaseModel;
 
-public class ValidatedCrudRequester<M extends BaseModel> extends HttpRequest implements CrudEndpointInterface {
+import java.util.Arrays;
+import java.util.List;
+
+public class ValidatedCrudRequester<M extends BaseModel> extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
     private CrudRequester crudRequester;
     public ValidatedCrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, Endpoint endpoint) {
         super(requestSpecification, responseSpecification, endpoint);
@@ -32,6 +36,11 @@ public class ValidatedCrudRequester<M extends BaseModel> extends HttpRequest imp
     @Override
     public M update(BaseModel model) {
         return (M) crudRequester.update(model).extract().as(endpoint.getResponseModel());
+    }
+    @Override
+    public List<M> getAll(Class<?> clazz) {
+        M[] array = (M[]) crudRequester.getAll(clazz).extract().as(clazz);
+        return Arrays.asList(array);
     }
 
 

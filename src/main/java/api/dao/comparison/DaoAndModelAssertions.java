@@ -1,0 +1,68 @@
+package api.dao.comparison;
+
+import api.models.BaseModel;
+import api.dao.UserDao;
+import api.dao.AccountDao;
+import org.assertj.core.api.AbstractAssert;
+
+public class DaoAndModelAssertions {
+
+    private static final DaoComparator daoComparator = new DaoComparator();
+
+    public static DaoModelAssert assertThat(BaseModel apiModel, Object daoModel) {
+        return new DaoModelAssert(apiModel, daoModel);
+    }
+
+    public static class DaoModelAssert extends AbstractAssert<DaoModelAssert, Object> {
+        private final BaseModel apiModel;
+        private final Object daoModel;
+
+        public DaoModelAssert(BaseModel apiModel, Object daoModel) {
+            super(apiModel, DaoModelAssert.class);
+            this.apiModel = apiModel;
+            this.daoModel = daoModel;
+        }
+
+        public DaoModelAssert match() {
+            if (apiModel == null) {
+                failWithMessage("API model should not be null");
+            }
+
+            if (daoModel == null) {
+                failWithMessage("DAO model should not be null");
+            }
+
+            // Use configurable comparison
+            try {
+                daoComparator.compare(apiModel, daoModel);
+            } catch (AssertionError e) {
+                failWithMessage(e.getMessage());
+            }
+
+            return this;
+        }
+        public DaoModelAssert doesntMatch() {
+            if (apiModel == null) {
+                failWithMessage("API model should not be null");
+            }
+
+            if (daoModel == null) {
+                failWithMessage("DAO model should not be null");
+            }
+
+            try {
+                daoComparator.compare(apiModel, daoModel);
+                // Если сравнение прошло БЕЗ ошибок — значит модели совпадают → это плохо для doesntMatch()
+                failWithMessage("Expected models to be different, but they are equal");
+            } catch (AssertionError e) {
+                // Ожидаемое поведение: модели различаются → тест проходит
+                return this;
+            } catch (Exception e) {
+                // Если выбросилось что-то кроме AssertionError (например, NPE), это ошибка
+                failWithMessage("Unexpected error during comparison: " + e.getMessage());
+            }
+
+            return this;
+        }
+    }
+}

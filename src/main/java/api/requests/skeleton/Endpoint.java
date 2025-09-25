@@ -1,9 +1,7 @@
-package api.Requests.skeleton;
+package api.requests.skeleton;
 
 import api.models.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import api.models.*;
 
 
 @Getter
@@ -27,7 +25,51 @@ public enum Endpoint {
             DepositRequestModel.class,
             DepositResponseModel.class
     ),
+    ADMIN_USER(
+            "/admin/users",
+            CreateUserRequestModel.class,
+            CreateUserResponseModel.class
+    ),
     LOGIN_ENDPOINT(
+            "/api/v1/auth/login",
+            C2CRequestModel.class,
+            C2CResponseModel.class
+    ),
+    ACCOUNTS(
+            "/api/v1/accounts",
+            BaseModel.class,
+            CreateAccountResponseModel.class
+    ),
+
+    CUSTOMER_ACCOUNTS(
+            "/api/v1/customer/accounts",
+            BaseModel.class,
+            CreateAccountResponseModel.class
+    ),
+    ACCOUNT_DEPOSIT(
+            "/api/v1/accounts/deposit",
+            DepositRequestModel.class,
+            DepositResponseModel.class
+    ),
+
+    ACCOUNT_TRANSFER(
+            "/api/v1/accounts/transfer",
+            TransferRequestModel.class,
+            TransferResponseModel.class
+    ),
+
+    TRANSFER_WITH_FRAUD_CHECK(
+            "/api/v1/accounts/transfer-with-fraud-check",
+            TransferRequestModel.class,
+            TransferResponseModel.class
+    ),
+
+    FRAUD_CHECK_STATUS(
+            "/api/v1/accounts/fraud-check/{transactionId}",
+            BaseModel.class,
+            FraudCheckResponseModel.class
+    ),
+    ACCOUNTS_ENDPOINT(
             "/api/v1/auth/login",
             C2CRequestModel.class,
             C2CResponseModel.class

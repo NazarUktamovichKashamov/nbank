@@ -1,8 +1,11 @@
 package api.Iteration2;
 
-import api.Requests.skeleton.Endpoint;
-import api.Requests.skeleton.requesters.CrudRequester;
-import api.Requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.requesters.CrudRequester;
+import api.requests.skeleton.requesters.ValidatedCrudRequester;
+import api.requests.steps.DataBaseSteps;
+import api.dao.UserDao;
+import api.dao.comparison.DaoAndModelAssertions;
 import api.generators.RandomData;
 import api.generators.RandomModelGenerator;
 import api.models.ChangeNameRequestModel;
@@ -11,10 +14,13 @@ import org.junit.jupiter.api.Test;
 import api.specs.RequestSpecs;
 import api.specs.ResponseSpecs;
 
-public class ChangeNameTest extends BaseTest{
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+public class ChangeNameTest extends BaseTest {
 
     @Test
-    public void positiveChangeNameTest(){
+    public void positiveChangeNameTest() {
 
         ChangeNameRequestModel changeNameRequestModel = RandomModelGenerator.generate(ChangeNameRequestModel.class);
 
@@ -24,11 +30,15 @@ public class ChangeNameTest extends BaseTest{
                 Endpoint.CHANGE_NAME_ENDPOINT)
                 .update(changeNameRequestModel);
         softly.assertThat(changeNameRequestModel.getName()).isEqualTo(changeNameResponseModel.getCustomer().getName());
+
+        UserDao userDao = DataBaseSteps.getUserByUsername("Kate1998");
+        assertEquals(changeNameResponseModel.getCustomer().getName(), userDao.getName());
+
     }
 
 
     @Test
-    public void negativeUsernameOneWordTest(){
+    public void negativeUsernameOneWordTest() {
         ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
                 .name(RandomData.CreateSingleWordName())
                 .build();
@@ -37,11 +47,13 @@ public class ChangeNameTest extends BaseTest{
                 ResponseSpecs.InvalidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
                 .update(changeNameRequestModel);
+
+        assertNull(DataBaseSteps.getUserByUsername(changeNameRequestModel.getName()));
     }
 
 
     @Test
-    public void negativeUsername3WordsTest(){
+    public void negativeUsername3WordsTest() {
         ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
                 .name(RandomData.CreateThreeWordsInvalidName())
                 .build();
@@ -50,11 +62,13 @@ public class ChangeNameTest extends BaseTest{
                 ResponseSpecs.InvalidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
                 .update(changeNameRequestModel);
+
+        assertNull(DataBaseSteps.getUserByUsername(changeNameRequestModel.getName()));
     }
 
 
     @Test
-    public void negativeUsernameWithDigitsTest(){
+    public void negativeUsernameWithDigitsTest() {
         ChangeNameRequestModel changeNameRequestModel = ChangeNameRequestModel.builder()
                 .name(RandomData.CreateNumericName())
                 .build();
@@ -63,5 +77,7 @@ public class ChangeNameTest extends BaseTest{
                 ResponseSpecs.InvalidUsernameRequest(),
                 Endpoint.CHANGE_NAME_ENDPOINT)
                 .update(changeNameRequestModel);
+
+        assertNull(DataBaseSteps.getUserByUsername(changeNameRequestModel.getName()));
     }
 }

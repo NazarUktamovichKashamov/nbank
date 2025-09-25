@@ -1,19 +1,19 @@
-package api.Requests.skeleton;
+package api.requests;
 
-import api.models.BaseModel;
+import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import api.models.BaseModel;
 
-public abstract class HttpRequest {
+public abstract class Request <T extends BaseModel> {
     protected RequestSpecification requestSpecification;
     protected ResponseSpecification responseSpecification;
-    protected Endpoint endpoint;
 
-    public HttpRequest(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, Endpoint endpoint) {
+
+    public Request(RequestSpecification requestSpecification, ResponseSpecification responseSpecification){
         this.requestSpecification = requestSpecification;
         this.responseSpecification = responseSpecification;
-        this.endpoint = endpoint;
     }
 
-    public abstract Object update(long id, BaseModel model);
+    public abstract ValidatableResponse post(T model);
 }

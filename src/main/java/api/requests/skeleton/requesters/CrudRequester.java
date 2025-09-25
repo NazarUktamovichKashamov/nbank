@@ -1,8 +1,9 @@
-package api.Requests.skeleton.requesters;
+package api.requests.skeleton.requesters;
 
-import api.Requests.skeleton.Endpoint;
-import api.Requests.skeleton.HttpRequest;
-import api.Requests.skeleton.interfaces.CrudEndpointInterface;
+import api.requests.skeleton.Endpoint;
+import api.requests.skeleton.HttpRequest;
+import api.requests.skeleton.interfaces.CrudEndpointInterface;
+import api.requests.skeleton.interfaces.GetAllEndpointInterface;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -10,7 +11,7 @@ import api.models.BaseModel;
 
 import static io.restassured.RestAssured.given;
 
-public class CrudRequester extends HttpRequest implements CrudEndpointInterface {
+public class CrudRequester extends HttpRequest implements CrudEndpointInterface, GetAllEndpointInterface {
     public CrudRequester(RequestSpecification requestSpecification, ResponseSpecification responseSpecification, Endpoint endpoint) {
         super(requestSpecification, responseSpecification, endpoint);
     }
@@ -42,6 +43,15 @@ public class CrudRequester extends HttpRequest implements CrudEndpointInterface 
         return given()
                 .spec(requestSpecification)
                 .body(model)
+                .put(endpoint.getUrl())
+                .then()
+                .assertThat()
+                .spec(responseSpecification);
+    }
+    @Override
+    public ValidatableResponse getAll(Class<?> clazz) {
+        return given()
+                .spec(requestSpecification)
                 .put(endpoint.getUrl())
                 .then()
                 .assertThat()
